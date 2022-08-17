@@ -57,25 +57,44 @@ let DisplayController = function(){
   function check(pos){
     checkRow(pos);
     checkCol(pos);
+    // checkDiag(pos);
   }
   function checkRow(pos){
     for(let i=0; i<3; i++){
-      let col = i%2;
       let board = gameBoard.Gameboard;
-      if(board[pos.row][col]!=board[pos.row][++col]){
+      if(board[pos.row][i]!=board[pos.row][incRC(i)]){
         return;
       }
     }
-    console.log('lose');
+    console.log('row lose');
   }
   function checkCol(pos){
     for(let i=0; i<3; i++){
-      let row = i%2;
       let board = gameBoard.Gameboard;
-      if(board[row][pos.col]!=board[++row][pos.col]){
+      if(board[i][pos.col]!=board[incRC(i)][pos.col]){
         return;
       }
     }
-    console.log('lose');
+    console.log('col lose');
+  }
+  function checkDiag(pos){
+    let board = gameBoard.Gameboard;
+    for(let i=0; i<3; i++){
+      let row = i%2;
+      let col = i%2;
+      console.log(i, i)
+      console.log(++row, ++col)
+      
+      // console.log(board[row][col], board[++row][++col])
+      // if(board[row][col]!=board[++row][col]){
+      //   return;
+      // }
+    }
+    // console.log('diag lose');
+  }
+  //increament row/column by 1
+  function incRC(pos){
+    pos++;
+    return (pos<3)?pos: 0; 
   }
 }()
