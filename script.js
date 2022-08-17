@@ -56,12 +56,23 @@ let DisplayController = function(){
   }
   function check(pos){
     checkRow(pos);
+    checkCol(pos);
   }
   function checkRow(pos){
     for(let i=0; i<3; i++){
       let col = (i<2)? i : -1;
       let board = gameBoard.Gameboard;
       if(board[pos.row][i]!=board[pos.row][++col]){
+        return;
+      }
+    }
+    console.log('lose');
+  }
+  function checkCol(pos){
+    for(let i=0; i<3; i++){
+      let row = (i<2)? i : -1;
+      let board = gameBoard.Gameboard;
+      if(board[i][pos.col]!=board[++row][pos.col]){
         return;
       }
     }
