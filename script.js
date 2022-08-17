@@ -79,10 +79,14 @@ let DisplayController = function(){
   }
   function checkDiag(){
     let board = gameBoard.Gameboard;
+    if (board[1][1] == undefined) return;
     for(let i=0; i<3; i++){
-      if (board[i][i] == undefined) return;
-      if(board[i][i]!=board[incRC(i)][incRC(i)]){
-        return;
+      if(board[i][i]!=board[incRC(i)][incRC(i)]
+      && board[i][i] == undefined){     
+        if(board[0][2]==undefined || board[2][0]==undefined) return;
+        if(board[0][2]!=board[1][1] || board[1][1]!=board[2][0]){
+          return;
+        }
       }
     }
     console.log('diag lose');
