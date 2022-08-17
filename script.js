@@ -3,9 +3,10 @@ let Gameboard = function(){
   return {Gameboard};
 }()
 
-let Player = function(mark){
+let Player = function(name, mark){
+  this.name = name;
   this.mark = mark;
-  return {mark};
+  return {mark, name};
 }
 
 let DisplayController = function(){
@@ -19,9 +20,10 @@ let DisplayController = function(){
   })
 
   //players
-  const playerX = Player('X');
-  const playerO = Player('O');
+  const playerX = Player('Akram','X');
+  const playerO = Player('Lux','O');
   let currentPlayer = playerX;
+  let turn = 0;
 
   const gameBoard = Gameboard;
 
@@ -33,6 +35,7 @@ let DisplayController = function(){
     layoutItems();
   }
   function plotMarks(){
+    turn++;
     let index = this.classList[1].split('-');
     let row = index[0];
     let col = index[1];
@@ -40,6 +43,7 @@ let DisplayController = function(){
     gameBoard.Gameboard[row][col] = currentPlayer.mark;
     layoutItems();
     check({row, col});
+    if (turn == 9) alert('draw')
     togglePlayer();
   }
   function layoutItems(){
@@ -66,7 +70,7 @@ let DisplayController = function(){
         return;
       }
     }
-    console.log('row lose');
+    lose();
   }
   function checkCol(pos){
     for(let i=0; i<3; i++){
@@ -75,25 +79,27 @@ let DisplayController = function(){
         return;
       }
     }
-    console.log('col lose');
+    lose();
   }
   function checkDiag(){
     let board = gameBoard.Gameboard;
     if (board[1][1] == undefined) return;
     for(let i=0; i<3; i++){
       if(board[i][i]!=board[incRC(i)][incRC(i)]
-      && board[i][i] == undefined){     
+      || board[i][i] == undefined){
         if(board[0][2]==undefined || board[2][0]==undefined) return;
         if(board[0][2]!=board[1][1] || board[1][1]!=board[2][0]){
           return;
         }
       }
     }
-    console.log('diag lose');
+    lose();
   }
-  //increament row/column by 1
   function incRC(pos){
     pos++;
     return (pos<3)?pos: 0; 
+  }
+  function lose(){
+    alert(currentPlayer.name + ' won!')
   }
 }()
