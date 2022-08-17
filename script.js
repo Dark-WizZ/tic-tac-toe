@@ -58,10 +58,10 @@ let DisplayController = function(){
     checkRow(pos);
   }
   function checkRow(pos){
-    for(let i=0; i<2; i++){
-      let col = (i<2)? i : 0;
-      if(gameBoard.Gameboard[pos.row][col]==gameBoard.Gameboard[pos.row][++col]){
-        console.log(col)
+    for(let i=0; i<3; i++){
+      let col = (i<2)? i : -1;
+      let board = gameBoard.Gameboard;
+      if(board[pos.row][i]!=board[pos.row][++col]){
         return;
       }
     }
