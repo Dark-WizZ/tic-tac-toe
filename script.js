@@ -60,9 +60,9 @@ let DisplayController = function(){
   }
   function checkRow(pos){
     for(let i=0; i<3; i++){
-      let col = (i<2)? i : -1;
+      let col = i%2;
       let board = gameBoard.Gameboard;
-      if(board[pos.row][i]!=board[pos.row][++col]){
+      if(board[pos.row][col]!=board[pos.row][++col]){
         return;
       }
     }
@@ -70,9 +70,9 @@ let DisplayController = function(){
   }
   function checkCol(pos){
     for(let i=0; i<3; i++){
-      let row = (i<2)? i : -1;
+      let row = i%2;
       let board = gameBoard.Gameboard;
-      if(board[i][pos.col]!=board[++row][pos.col]){
+      if(board[row][pos.col]!=board[++row][pos.col]){
         return;
       }
     }
