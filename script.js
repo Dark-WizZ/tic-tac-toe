@@ -37,7 +37,7 @@ let DisplayController = function(){
   const player2 = document.querySelector('.player.two');
   const ai = document.querySelector('.ai');
 
-  //players
+  //vars
   let playerX = Player('Player1','X');
   let playerO = Player('Player2','O');
   let currentPlayer = playerX;
@@ -45,6 +45,11 @@ let DisplayController = function(){
   const gameboard = Gameboard;
   let board = gameboard.Gameboard;
 
+  let scores = {
+    X: -1,
+    O: 1,
+    tie: 0
+  }
 
   //init
   render();
@@ -97,8 +102,8 @@ let DisplayController = function(){
     playerInfo.textContent = `${currentPlayer.name}'s turn`;
     if (currentPlayer.isAI) playAI();
   }
-  function check(pos){
-    if (checkRow(pos) || checkCol(pos) || checkDiag()){
+  function check(){
+    if (checkRow() || checkCol() || checkDiag()){
       return true;
     }
     let c=0;
@@ -112,21 +117,31 @@ let DisplayController = function(){
     if(c==0) return null;
     return false;
   }
-  function checkRow(pos){
+  function checkRow(){
     for(let i=0; i<3; i++){
-      if(board[pos.row][i]!=board[pos.row][incRC(i)]){
-        return false;
+      let c=0;
+      for(let j=0; j<3; j++){
+        if(board[i][j]==board[i][incRC(j)] && 
+        board[i][j]!=''){
+          c++;
+          if (c==3) return true;
+        }
       }
     }
-    return true;
+    return false;
   }
-  function checkCol(pos){
+  function checkCol(){
     for(let i=0; i<3; i++){
-      if(board[i][pos.col]!=board[incRC(i)][pos.col]){
-        return false;
+      let c=0;
+      for(let j=0; j<3; j++){
+        if(board[j][i]==board[incRC(j)][i] && 
+        board[j][i]!=''){
+          c++;
+          if (c==3) return true;
+        }
       }
     }
-    return true;
+    return false;
   }
   function checkDiag(){
     if (board[1][1] == '') return;
@@ -171,12 +186,14 @@ let DisplayController = function(){
     playerLayout.style.display = 'none';
     gameLayout.style.display = 'grid';
     playerInfo.textContent = `${playerX.name}'s turn`;
+    if (currentPlayer.isAI) playAI();
   }
   function retryBtnClick(){
     gameboard.resetArr();
     render();
     greetLayout.style.display = 'none';
     gameLayout.style.filter = 'none';
+    if (currentPlayer.isAI) playAI();
   }
   function exitBtnClick(){
     greetLayout.style.display = 'none';
@@ -206,17 +223,41 @@ let DisplayController = function(){
     playerO = Player('AI','O');
     playerO.isAI = true;
   }
+  // function playAI(){
+  //   let row; let col;
+  //   while(true){
+  //     row = Math.floor(Math.random()*3);
+  //     col = Math.floor(Math.random()*3);
+  //     if(board[row][col]==''){
+  //       break;
+  //     }
+  //   }
+  //   board[row][col] = currentPlayer.mark;
+  //   layoutItems();
+  //   result({row, col});
+  // }
   function playAI(){
-    let row; let col;
-    while(true){
-      row = Math.floor(Math.random()*3);
-      col = Math.floor(Math.random()*3);
-      if(board[row][col]==''){
-        break;
+    let bestScore = -Infinity;
+    let row, col;
+    for(let i=0; i<3; i++){
+      for(let j=0; j<3; j++){
+        if(board[i][j]==''){
+          board[i][j] = currentPlayer.mark;
+          let score = minMax(board);
+          board[i][j] = '';
+          if(score>bestScore){
+            bestScore = score;
+            row=i; col=j;
+          }
+        }
       }
     }
     board[row][col] = currentPlayer.mark;
     layoutItems();
     result({row, col});
+  }
+  function minMax(board, depth, isMaximixing){
+    return 1;
+
   }
 }()
