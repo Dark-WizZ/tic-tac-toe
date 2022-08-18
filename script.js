@@ -68,13 +68,20 @@ let DisplayController = function(){
     let index = this.classList[1].split('-');
     let row = Number(index[0]);
     let col = Number(index[1]);
-    console.log({row,col})
-    console.log(board)
     if (board[row][col]!='') return;
-    console.log('p')
     board[row][col] = currentPlayer.mark;
     layoutItems();
-    if(!check({row, col})) togglePlayer();
+    result({row, col})
+  }
+  function result(pos){
+    let res = check(pos);
+    if(res){
+      finish(true)
+    }else if(res==null){
+      finish(false)
+    }else{
+      togglePlayer();
+    }
   }
   function layoutItems(){
     let i = 0;
@@ -84,7 +91,6 @@ let DisplayController = function(){
         i++;
       }
     }
-    console.log(board)
   }
   function togglePlayer(){
     currentPlayer = (currentPlayer==playerX)? playerO : playerX;
@@ -93,13 +99,21 @@ let DisplayController = function(){
   }
   function check(pos){
     if (checkRow(pos) || checkCol(pos) || checkDiag()){
-      finish('won');
       return true;
     }
-    if(++gameboard.turn > 9){
-      finish('draw');
-      return true;
+    // if(++gameboard.turn > 9){
+    //   finish('draw');
+    //   return true;
+    // }
+    let c=0;
+    for(let i=0; i<3; i++){
+      for(let j=0; j<3; j++){
+        if(board[i][j]==''){
+          c++;
+        }
+      }
     }
+    if(c==0) return null;
     return false;
   }
   function checkRow(pos){
@@ -144,7 +158,7 @@ let DisplayController = function(){
     gameLayout.style = 'filter: blur(5px);';
     gameLayout.style.display = 'grid';
     greetLayout.style.display = 'grid'
-    greeting.textContent = (state=='won')?currentPlayer.name + ' won!' : 'draw';
+    greeting.textContent = (state)?currentPlayer.name + ' won!' : 'draw';
   }
 
   function playBtnClick(){
@@ -196,18 +210,6 @@ let DisplayController = function(){
     playerO = Player('AI','O');
     playerO.isAI = true;
   }
-  // function playAI(){
-  //   let bestScore  = -Infinity;
-  //   let bestMove;
-  //   for(let i=0; i<3; i++){
-  //     for(let j=0; j<3; j++){
-  //       if(board[i][j])
-  //     }
-  //   }
-  // }
-  // function minMax(){
-
-  // }
   function playAI(){
     let row; let col;
     while(true){
