@@ -75,6 +75,7 @@ let DisplayController = function(){
   function togglePlayer(){
     currentPlayer = (currentPlayer==playerX)? playerO : playerX;
     playerInfo.textContent = `${currentPlayer.name}'s turn`;
+    if (currentPlayer.isAI) playAI();
   }
   function check(pos){
     if (checkRow(pos) || checkCol(pos) || checkDiag()){
@@ -129,13 +130,17 @@ let DisplayController = function(){
     greeting.textContent = currentPlayer.name + ' won!';
   }
   function playBtnClick(){
+    console.log(playerO.isAI)
     gameboard.Gameboard = [[], [], []];
     render();
     gameLayout.style.filter = 'none';
     const player1IP = document.querySelector('#player1-name');
     const player2IP = document.querySelector('#player2-name');
     playerX = (player1IP.value)?Player(player1IP.value, 'X'): playerX;
-    playerO = (player2IP.value)?Player(player2IP.value, 'O'): playerO;
+    if(!playerO.isAI){
+      playerO = (player2IP.value)?Player(player2IP.value, 'O'): playerO;
+    }
+    console.log(playerO)
     currentPlayer = playerX;
     playerLayout.style.display = 'none';
     gameLayout.style.display = 'grid';
@@ -165,11 +170,19 @@ let DisplayController = function(){
     welcomeLayout.style.display = 'none';
     playerLayout.style.display = 'grid';
     ai.style.display = 'none';
+    player2.style.display = 'grid';
   }
   function withAIBtnClick(){
     welcomeLayout.style.display = 'none';
     playerLayout.style.display = 'grid';
     player2.style.display = 'none';
     ai.style.display = 'grid';
+    playerO = Player('AI','O');
+    playerO.isAI = true;
+  }
+  function playAI(){
+    let index = Math.floor(Math.random()*9);
+    if(gameboard.Gameboard[index]!=undefined) playAI();
+    gameboard.Gameboard[index] = currentPlayer.mark;
   }
 }()
