@@ -1,7 +1,18 @@
 let Gameboard = function(){
-  let Gameboard = [[],[],[]];
+  let Gameboard = new Array(3);
+  function resetArr(){
+    for(let i=0; i<3; i++){
+      Gameboard[i] = new Array(3);
+    }
+    for(let i=0; i<3; i++){
+      for(let j=0; j<3; j++){
+        Gameboard[i][j]='';
+      }
+    }
+  }
+  resetArr();
   let turn = 1;
-  return {Gameboard, turn};
+  return {Gameboard, turn, resetArr};
 }()
 
 let Player = function(name, mark){
@@ -34,6 +45,7 @@ let DisplayController = function(){
   const gameboard = Gameboard;
   let board = gameboard.Gameboard;
 
+
   //init
   render();
 
@@ -54,9 +66,12 @@ let DisplayController = function(){
   function plotMarks(){
     this.classList.remove('hover');
     let index = this.classList[1].split('-');
-    let row = index[0];
-    let col = index[1];
-    if (board[row][col]!==undefined) return;
+    let row = Number(index[0]);
+    let col = Number(index[1]);
+    console.log({row,col})
+    console.log(board)
+    if (board[row][col]!='') return;
+    console.log('p')
     board[row][col] = currentPlayer.mark;
     layoutItems();
     if(!check({row, col})) togglePlayer();
@@ -69,6 +84,7 @@ let DisplayController = function(){
         i++;
       }
     }
+    console.log(board)
   }
   function togglePlayer(){
     currentPlayer = (currentPlayer==playerX)? playerO : playerX;
@@ -103,11 +119,11 @@ let DisplayController = function(){
     return true;
   }
   function checkDiag(){
-    if (board[1][1] == undefined) return;
+    if (board[1][1] == '') return;
     for(let i=0; i<3; i++){
       if(board[i][i]!=board[incRC(i)][incRC(i)]
-      || board[i][i] == undefined){
-        if(board[0][2]==undefined || board[2][0]==undefined) return;
+      || board[i][i] == ''){
+        if(board[0][2]=='' || board[2][0]=='') return;
         if(board[0][2]!=board[1][1] || board[1][1]!=board[2][0]){
           return false;
         }
@@ -132,7 +148,7 @@ let DisplayController = function(){
   }
 
   function playBtnClick(){
-    board = [[], [], []];
+    gameboard.resetArr();
     render();
     gameLayout.style.filter = 'none';
     const player1IP = document.querySelector('#player1-name');
@@ -147,7 +163,7 @@ let DisplayController = function(){
     playerInfo.textContent = `${playerX.name}'s turn`;
   }
   function retryBtnClick(){
-    board = [[], [], []];
+    gameboard.resetArr();
     render();
     greetLayout.style.display = 'none';
     gameLayout.style.filter = 'none';
@@ -197,7 +213,7 @@ let DisplayController = function(){
     while(true){
       row = Math.floor(Math.random()*3);
       col = Math.floor(Math.random()*3);
-      if(board[row][col]==undefined){
+      if(board[row][col]==''){
         break;
       }
     }
