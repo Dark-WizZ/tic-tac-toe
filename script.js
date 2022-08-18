@@ -78,16 +78,6 @@ let DisplayController = function(){
     layoutItems();
     result();
   }
-  function result(){
-    let res = check();
-    if(res=='tie'){
-      finish(false)
-    }else if(res==null){
-      togglePlayer();
-    }else{
-      finish(true);
-    }
-  }
   function layoutItems(){
     let i = 0;
     for(let row=0; row<3; row++){
@@ -160,7 +150,15 @@ let DisplayController = function(){
     pos++;
     return (pos<3)?pos: 0; 
   }
-  function finish(state){
+  function result(){
+    let res = check();
+    if(res==null){
+      togglePlayer();
+    }else{
+      finish(res);
+    }
+  }
+  function finish(res){
     const greeting = document.querySelector('.greeting');
     const retryBtn = document.querySelector('.retry');
     const exitBtn = document.querySelector('.exit')
@@ -169,7 +167,7 @@ let DisplayController = function(){
     gameLayout.style = 'filter: blur(5px);';
     gameLayout.style.display = 'grid';
     greetLayout.style.display = 'grid'
-    greeting.textContent = (state)?currentPlayer.name + ' won!' : 'draw';
+    greeting.textContent = (res=='tie')?'draw': currentPlayer.name + ' won!';
   }
 
   function playBtnClick(){
