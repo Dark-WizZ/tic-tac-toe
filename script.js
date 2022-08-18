@@ -94,7 +94,7 @@ let DisplayController = function(){
   }
   function check(){
     if (checkRow() || checkCol() || checkDiag()){
-      return currentPlayer;
+      return currentPlayer.mark;
     }
     let c=0;
     for(let i=0; i<3; i++){
@@ -212,6 +212,7 @@ let DisplayController = function(){
     playerLayout.style.display = 'grid';
     ai.style.display = 'none';
     player2.style.display = 'grid';
+    playerO = Player('Player2','O');
   }
   function withAIBtnClick(){
     welcomeLayout.style.display = 'none';
@@ -256,8 +257,8 @@ let DisplayController = function(){
   }
   function minMax(board, depth, isMaximixing){
     let res = check();
-    if(result != false){
-
+    if(result != null){
+      let score = scores[res];
     }
     return 1;
   }
