@@ -17,6 +17,7 @@ let DisplayController = function(){
   const gameLayout = document.querySelector('.game-layout');
   const welcomeLayout = document.querySelector('.welcome-layout');
   const playerInfo = document.querySelector('.player-info');
+  const greetLayout = document.querySelector('.greet-layout');
 
   //bindEvents
   parts.forEach(e => {
@@ -30,13 +31,14 @@ let DisplayController = function(){
   let currentPlayer = playerX;
   let turn = 0;
 
-  const gameBoard = Gameboard;
+  const gameboard = Gameboard;
 
   //init
   render();
 
   //methods
   function render(){
+    turn = 0;
     layoutItems();
   }
   function plotMarks(){
@@ -44,8 +46,8 @@ let DisplayController = function(){
     let index = this.classList[1].split('-');
     let row = index[0];
     let col = index[1];
-    if (gameBoard.Gameboard[row][col]!==undefined) return;
-    gameBoard.Gameboard[row][col] = currentPlayer.mark;
+    if (gameboard.Gameboard[row][col]!==undefined) return;
+    gameboard.Gameboard[row][col] = currentPlayer.mark;
     layoutItems();
     check({row, col});
     if (turn == 9) alert('draw')
@@ -55,62 +57,71 @@ let DisplayController = function(){
     let i = 0;
     for(let row=0; row<3; row++){
       for(let col=0; col<3; col++){
-        parts[i].textContent = gameBoard.Gameboard[row][col];
+        parts[i].textContent = gameboard.Gameboard[row][col];
         i++;
       }
     }
   }
   function togglePlayer(){
-    console.log(currentPlayer)
-    console.log(playerX);
     currentPlayer = (currentPlayer==playerX)? playerO : playerX;
     playerInfo.textContent = `${currentPlayer.name}'s turn`;
   }
   function check(pos){
-    checkRow(pos);
-    checkCol(pos);
-    checkDiag();
+    if (checkRow(pos) || checkCol(pos) || checkDiag()){
+      finish()
+    }
   }
   function checkRow(pos){
     for(let i=0; i<3; i++){
-      let board = gameBoard.Gameboard;
+      let board = gameboard.Gameboard;
       if(board[pos.row][i]!=board[pos.row][incRC(i)]){
-        return;
+        return false;
       }
     }
-    lose();
+    return true;
   }
   function checkCol(pos){
     for(let i=0; i<3; i++){
-      let board = gameBoard.Gameboard;
+      let board = gameboard.Gameboard;
       if(board[i][pos.col]!=board[incRC(i)][pos.col]){
-        return;
+        return false;
       }
     }
-    lose();
+    return true;
   }
   function checkDiag(){
-    let board = gameBoard.Gameboard;
+    let board = gameboard.Gameboard;
     if (board[1][1] == undefined) return;
     for(let i=0; i<3; i++){
       if(board[i][i]!=board[incRC(i)][incRC(i)]
       || board[i][i] == undefined){
         if(board[0][2]==undefined || board[2][0]==undefined) return;
         if(board[0][2]!=board[1][1] || board[1][1]!=board[2][0]){
-          return;
+          return false;
         }
       }
     }
-    lose();
+    return true;
   }
   function incRC(pos){
     pos++;
     return (pos<3)?pos: 0; 
   }
-  function lose(){
-    alert(currentPlayer.name + ' won!')
+  function finish(){
+    const greeting = document.querySelector('.greeting');
+    const retryBtn = document.querySelector('.retry');
+    const exitBtn = document.querySelector('.exit')
+    retryBtn.addEventListener('click', retryBtnClick);
+    exitBtn.addEventListener('click', exitBtnClick);
+    gameLayout.style = 'filter: blur(5px);';
+    gameLayout.style.display = 'grid';
+    greetLayout.style.display = 'grid'
+    greeting.textContent = currentPlayer.name + ' won!';
   }
   function playBtnClick(){
+    gameboard.Gameboard = [[], [], []];
+    render();
+    gameLayout.style.filter = 'none';
     const player1IP = document.querySelector('#player1-name');
     const player2IP = document.querySelector('#player2-name');
     playerX = Player(player1IP.value, 'X');
@@ -119,5 +130,16 @@ let DisplayController = function(){
     welcomeLayout.style.display = 'none';
     gameLayout.style.display = 'grid';
     playerInfo.textContent = `${playerX.name}'s turn`;
+  }
+  function retryBtnClick(){
+    gameboard.Gameboard = [[], [], []];
+    render();
+    greetLayout.style.display = 'none';
+    gameLayout.style.filter = 'none';
+  }
+  function exitBtnClick(){
+    greetLayout.style.display = 'none';
+    gameLayout.style.display = 'none';
+    welcomeLayout.style.display = 'grid';
   }
 }()
