@@ -4,8 +4,10 @@
   margin: 0;
   --bgc: rgb(0, 0, 0);
   --fgc: rgb(29, 29, 29);
+  --hbgc: rgb(0, 0, 0, 0.5);
   color: white;
   border-radius: 10px;
+  box-sizing: border-box;
 }
 body, html{
   height: 100%;
@@ -93,4 +95,18 @@ input{
 }
 .greeting{
   text-align: center;
+}
+input:hover{
+  background-color: var(--hbgc);
+}
+button:hover{
+  background-color: var(--hbgc);
+  border: 1px solid var(--fgc);
+}
+button:active{
+  color: greenyellow;
+  border-color: greenyellow;
+}
+.part.hover{
+  color: rgb(63, 63, 63);
 }

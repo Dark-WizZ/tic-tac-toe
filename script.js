@@ -22,6 +22,7 @@ let DisplayController = function(){
   //bindEvents
   parts.forEach(e => {
     e.addEventListener('click', plotMarks)
+    e.addEventListener('mouseover', partMouseOver);
   })
   playBtn.addEventListener('click', playBtnClick);
 
@@ -43,6 +44,7 @@ let DisplayController = function(){
   }
   function plotMarks(){
     turn++;
+    this.classList.remove('hover');
     let index = this.classList[1].split('-');
     let row = index[0];
     let col = index[1];
@@ -124,8 +126,8 @@ let DisplayController = function(){
     gameLayout.style.filter = 'none';
     const player1IP = document.querySelector('#player1-name');
     const player2IP = document.querySelector('#player2-name');
-    playerX = Player(player1IP.value, 'X');
-    playerO = Player(player2IP.value, 'O');
+    playerX = (player1IP.value)?Player(player1IP.value, 'X'): playerX;
+    playerO = (player2IP.value)?Player(player2IP.value, 'O'): playerO;
     currentPlayer = playerX;
     welcomeLayout.style.display = 'none';
     gameLayout.style.display = 'grid';
@@ -141,5 +143,14 @@ let DisplayController = function(){
     greetLayout.style.display = 'none';
     gameLayout.style.display = 'none';
     welcomeLayout.style.display = 'grid';
+  }
+  function partMouseOver(){
+    if (this.textContent!='')return;
+    this.classList.add('hover');
+    this.textContent = currentPlayer.mark;
+    this.addEventListener('mouseout', ()=>{
+      this.classList.remove('hover');
+      layoutItems();
+    })
   }
 }()
