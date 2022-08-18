@@ -15,7 +15,7 @@ let DisplayController = function(){
   const parts = document.querySelectorAll('.part');
   const playBtn = document.querySelector('.play');
   const gameLayout = document.querySelector('.game-layout');
-  const welcomeLayout = document.querySelector('.welcome-layout');
+  const playerLayout = document.querySelector('.player-layout');
   const playerInfo = document.querySelector('.player-info');
   const greetLayout = document.querySelector('.greet-layout');
 
@@ -129,7 +129,7 @@ let DisplayController = function(){
     playerX = (player1IP.value)?Player(player1IP.value, 'X'): playerX;
     playerO = (player2IP.value)?Player(player2IP.value, 'O'): playerO;
     currentPlayer = playerX;
-    welcomeLayout.style.display = 'none';
+    playerLayout.style.display = 'none';
     gameLayout.style.display = 'grid';
     playerInfo.textContent = `${playerX.name}'s turn`;
   }
@@ -142,7 +142,7 @@ let DisplayController = function(){
   function exitBtnClick(){
     greetLayout.style.display = 'none';
     gameLayout.style.display = 'none';
-    welcomeLayout.style.display = 'grid';
+    playerLayout.style.display = 'grid';
   }
   function partMouseOver(){
     if (this.textContent!='')return;

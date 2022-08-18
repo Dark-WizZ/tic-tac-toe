@@ -16,6 +16,15 @@ body, html{
   margin: 0;
   background-color:var(--bgc);
 }
+.welcome-layout{
+  height: 100%;
+  display: grid;
+  place-content: center;
+}
+.welcome-layout .container{
+  display: grid;
+  gap: 16px;
+}
 .game-layout{
   height: 100%;
   display:none;
@@ -40,12 +49,12 @@ body, html{
   display: grid;
   place-items: center;
 }
-.welcome-layout{
+.player-layout{
   height: 100%;
-  display: grid;
+  display: none;
   place-items: center;
 }
-.welcome-layout .container{
+.player-layout .container{
   min-width: 90%;
   display: grid;
   place-items: center;
