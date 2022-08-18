@@ -62,14 +62,14 @@ body, html{
   gap: 20px;
 }
 .players{
-  min-width: 80%;
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 400px));
   grid-auto-rows: 200px;
   place-content: center;
   gap: 17px;
 }
-.player{
+.player, .ai{
   background-color: var(--fgc);
   display: grid;
   padding: 20px;

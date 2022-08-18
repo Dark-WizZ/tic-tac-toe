@@ -21,16 +21,9 @@ let DisplayController = function(){
   const greetLayout = document.querySelector('.greet-layout');
   const welcomeLayout = document.querySelector('.welcome-layout');
   const withFriendBtn = document.querySelector('.with-friend');
-  const withAIBtn = document.querySelector('.with-ai')
-
-  //bindEvents
-  parts.forEach(e => {
-    e.addEventListener('click', plotMarks)
-    e.addEventListener('mouseover', partMouseOver);
-  })
-  playBtn.addEventListener('click', playBtnClick);
-  withFriendBtn.addEventListener('click', withFriendBtnClick);
-  withAIBtn.addEventListener('click', withAIBtnClick);
+  const withAIBtn = document.querySelector('.with-ai');
+  const player2 = document.querySelector('.player.two');
+  const ai = document.querySelector('.ai');
 
   //players
   let playerX = Player('Player1','X');
@@ -42,6 +35,15 @@ let DisplayController = function(){
 
   //init
   render();
+
+  //bindEvents
+  parts.forEach(e => {
+    e.addEventListener('click', plotMarks)
+    e.addEventListener('mouseover', partMouseOver);
+  })
+  playBtn.addEventListener('click', playBtnClick);
+  withFriendBtn.addEventListener('click', withFriendBtnClick);
+  withAIBtn.addEventListener('click', withAIBtnClick);
 
   //methods
   function render(){
@@ -162,5 +164,12 @@ let DisplayController = function(){
   function withFriendBtnClick(){
     welcomeLayout.style.display = 'none';
     playerLayout.style.display = 'grid';
+    ai.style.display = 'none';
+  }
+  function withAIBtnClick(){
+    welcomeLayout.style.display = 'none';
+    playerLayout.style.display = 'grid';
+    player2.style.display = 'none';
+    ai.style.display = 'grid';
   }
 }()
