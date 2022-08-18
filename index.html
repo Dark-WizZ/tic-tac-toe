@@ -9,16 +9,40 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="welcome-layout">
+    <div class="container">
+      <div class="players">
+        <div class="player 1">
+          <div class="text">Player 1</div>
+          <input type="text" placeholder="Enter Name"
+          id="player1-name">
+          <label for="player1-name" aria-label="Enter name for player 1"></label>
+        </div>
+        <div class="player 2">
+          <div class="text">Player 2</div>
+          <input type="text" placeholder="Enter Name"
+          id="player2-name">
+          <label for="player2-name" aria-label="Enter name for player 2"></label>
+        </div>
+      </div>
+      <button class="play">Play</button>
+    </div>
+  </div>
   <div class="game-layout">
-    <div class="part 0-0"></div>
-    <div class="part 0-1"></div>
-    <div class="part 0-2"></div>
-    <div class="part 1-0"></div>
-    <div class="part 1-1"></div>
-    <div class="part 1-2"></div>
-    <div class="part 2-0"></div>
-    <div class="part 2-1"></div>
-    <div class="part 2-2"></div>
+    <div class="player-info">
+      Player 1's turn
+    </div>
+    <div class="grids">
+      <div class="part 0-0"></div>
+      <div class="part 0-1"></div>
+      <div class="part 0-2"></div>
+      <div class="part 1-0"></div>
+      <div class="part 1-1"></div>
+      <div class="part 1-2"></div>
+      <div class="part 2-0"></div>
+      <div class="part 2-1"></div>
+      <div class="part 2-2"></div>
+    </div>
   </div>
 </body>
 </html>
