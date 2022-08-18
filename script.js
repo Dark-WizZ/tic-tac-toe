@@ -32,6 +32,7 @@ let DisplayController = function(){
   let currentPlayer = playerX;
 
   const gameboard = Gameboard;
+  let board = gameboard.Gameboard;
 
   //init
   render();
@@ -55,8 +56,8 @@ let DisplayController = function(){
     let index = this.classList[1].split('-');
     let row = index[0];
     let col = index[1];
-    if (gameboard.Gameboard[row][col]!==undefined) return;
-    gameboard.Gameboard[row][col] = currentPlayer.mark;
+    if (board[row][col]!==undefined) return;
+    board[row][col] = currentPlayer.mark;
     layoutItems();
     if(!check({row, col})) togglePlayer();
   }
@@ -64,7 +65,7 @@ let DisplayController = function(){
     let i = 0;
     for(let row=0; row<3; row++){
       for(let col=0; col<3; col++){
-        parts[i].textContent = gameboard.Gameboard[row][col];
+        parts[i].textContent = board[row][col];
         i++;
       }
     }
@@ -87,7 +88,6 @@ let DisplayController = function(){
   }
   function checkRow(pos){
     for(let i=0; i<3; i++){
-      let board = gameboard.Gameboard;
       if(board[pos.row][i]!=board[pos.row][incRC(i)]){
         return false;
       }
@@ -96,7 +96,6 @@ let DisplayController = function(){
   }
   function checkCol(pos){
     for(let i=0; i<3; i++){
-      let board = gameboard.Gameboard;
       if(board[i][pos.col]!=board[incRC(i)][pos.col]){
         return false;
       }
@@ -104,7 +103,6 @@ let DisplayController = function(){
     return true;
   }
   function checkDiag(){
-    let board = gameboard.Gameboard;
     if (board[1][1] == undefined) return;
     for(let i=0; i<3; i++){
       if(board[i][i]!=board[incRC(i)][incRC(i)]
@@ -134,7 +132,7 @@ let DisplayController = function(){
   }
 
   function playBtnClick(){
-    gameboard.Gameboard = [[], [], []];
+    board = [[], [], []];
     render();
     gameLayout.style.filter = 'none';
     const player1IP = document.querySelector('#player1-name');
@@ -149,7 +147,7 @@ let DisplayController = function(){
     playerInfo.textContent = `${playerX.name}'s turn`;
   }
   function retryBtnClick(){
-    gameboard.Gameboard = [[], [], []];
+    board = [[], [], []];
     render();
     greetLayout.style.display = 'none';
     gameLayout.style.filter = 'none';
@@ -182,16 +180,28 @@ let DisplayController = function(){
     playerO = Player('AI','O');
     playerO.isAI = true;
   }
+  // function playAI(){
+  //   let bestScore  = -Infinity;
+  //   let bestMove;
+  //   for(let i=0; i<3; i++){
+  //     for(let j=0; j<3; j++){
+  //       if(board[i][j])
+  //     }
+  //   }
+  // }
+  // function minMax(){
+
+  // }
   function playAI(){
     let row; let col;
     while(true){
       row = Math.floor(Math.random()*3);
       col = Math.floor(Math.random()*3);
-      if(gameboard.Gameboard[row][col]==undefined){
+      if(board[row][col]==undefined){
         break;
       }
     }
-    gameboard.Gameboard[row][col] = currentPlayer.mark;
+    board[row][col] = currentPlayer.mark;
     layoutItems();
     check({row, col});
     togglePlayer();
