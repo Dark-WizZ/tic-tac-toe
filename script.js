@@ -6,7 +6,8 @@ let Gameboard = function(){
 let Player = function(name, mark){
   this.name = name;
   this.mark = mark;
-  return {mark, name};
+  this.isAI = false;
+  return {mark, name, isAI};
 }
 
 let DisplayController = function(){
@@ -18,6 +19,9 @@ let DisplayController = function(){
   const playerLayout = document.querySelector('.player-layout');
   const playerInfo = document.querySelector('.player-info');
   const greetLayout = document.querySelector('.greet-layout');
+  const welcomeLayout = document.querySelector('.welcome-layout');
+  const withFriendBtn = document.querySelector('.with-friend');
+  const withAIBtn = document.querySelector('.with-ai')
 
   //bindEvents
   parts.forEach(e => {
@@ -25,6 +29,8 @@ let DisplayController = function(){
     e.addEventListener('mouseover', partMouseOver);
   })
   playBtn.addEventListener('click', playBtnClick);
+  withFriendBtn.addEventListener('click', withFriendBtnClick);
+  withAIBtn.addEventListener('click', withAIBtnClick);
 
   //players
   let playerX = Player('Player1','X');
@@ -142,7 +148,7 @@ let DisplayController = function(){
   function exitBtnClick(){
     greetLayout.style.display = 'none';
     gameLayout.style.display = 'none';
-    playerLayout.style.display = 'grid';
+    welcomeLayout.style.display = 'grid';
   }
   function partMouseOver(){
     if (this.textContent!='')return;
@@ -152,5 +158,9 @@ let DisplayController = function(){
       this.classList.remove('hover');
       layoutItems();
     })
+  }
+  function withFriendBtnClick(){
+    welcomeLayout.style.display = 'none';
+    playerLayout.style.display = 'grid';
   }
 }()
