@@ -1,6 +1,7 @@
 let Gameboard = function(){
   let Gameboard = [[],[],[]];
-  return {Gameboard};
+  let turn = 1;
+  return {Gameboard, turn};
 }()
 
 let Player = function(name, mark){
@@ -29,7 +30,6 @@ let DisplayController = function(){
   let playerX = Player('Player1','X');
   let playerO = Player('Player2','O');
   let currentPlayer = playerX;
-  let turn = 0;
 
   const gameboard = Gameboard;
 
@@ -47,11 +47,10 @@ let DisplayController = function(){
 
   //methods
   function render(){
-    turn = 0;
+    gameboard.turn=1;
     layoutItems();
   }
   function plotMarks(){
-    turn++;
     this.classList.remove('hover');
     let index = this.classList[1].split('-');
     let row = index[0];
@@ -59,9 +58,7 @@ let DisplayController = function(){
     if (gameboard.Gameboard[row][col]!==undefined) return;
     gameboard.Gameboard[row][col] = currentPlayer.mark;
     layoutItems();
-    check({row, col});
-    if (turn == 9) alert('draw')
-    togglePlayer();
+    if(!check({row, col})) togglePlayer();
   }
   function layoutItems(){
     let i = 0;
@@ -79,8 +76,14 @@ let DisplayController = function(){
   }
   function check(pos){
     if (checkRow(pos) || checkCol(pos) || checkDiag()){
-      finish()
+      finish('won');
+      return true;
     }
+    if(++gameboard.turn > 9){
+      finish('draw');
+      return true;
+    }
+    return false;
   }
   function checkRow(pos){
     for(let i=0; i<3; i++){
@@ -118,7 +121,7 @@ let DisplayController = function(){
     pos++;
     return (pos<3)?pos: 0; 
   }
-  function finish(){
+  function finish(state){
     const greeting = document.querySelector('.greeting');
     const retryBtn = document.querySelector('.retry');
     const exitBtn = document.querySelector('.exit')
@@ -127,10 +130,10 @@ let DisplayController = function(){
     gameLayout.style = 'filter: blur(5px);';
     gameLayout.style.display = 'grid';
     greetLayout.style.display = 'grid'
-    greeting.textContent = currentPlayer.name + ' won!';
+    greeting.textContent = (state=='won')?currentPlayer.name + ' won!' : 'draw';
   }
+
   function playBtnClick(){
-    console.log(playerO.isAI)
     gameboard.Gameboard = [[], [], []];
     render();
     gameLayout.style.filter = 'none';
@@ -140,7 +143,6 @@ let DisplayController = function(){
     if(!playerO.isAI){
       playerO = (player2IP.value)?Player(player2IP.value, 'O'): playerO;
     }
-    console.log(playerO)
     currentPlayer = playerX;
     playerLayout.style.display = 'none';
     gameLayout.style.display = 'grid';
@@ -181,8 +183,17 @@ let DisplayController = function(){
     playerO.isAI = true;
   }
   function playAI(){
-    let index = Math.floor(Math.random()*9);
-    if(gameboard.Gameboard[index]!=undefined) playAI();
-    gameboard.Gameboard[index] = currentPlayer.mark;
+    let row; let col;
+    while(true){
+      row = Math.floor(Math.random()*3);
+      col = Math.floor(Math.random()*3);
+      if(gameboard.Gameboard[row][col]==undefined){
+        break;
+      }
+    }
+    gameboard.Gameboard[row][col] = currentPlayer.mark;
+    layoutItems();
+    check({row, col});
+    togglePlayer();
   }
 }()

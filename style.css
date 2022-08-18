@@ -93,7 +93,7 @@ input{
 }
 .greet-layout .container{
   padding: 60px 100px;
-  background-color: rgb(0, 0, 0, 0.99);
+  /* background-color: rgb(0, 0, 0, 0.99); */
   display: grid;
   gap: 20px;
 }
