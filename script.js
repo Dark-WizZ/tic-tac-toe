@@ -71,7 +71,7 @@ let DisplayController = function(){
     if (board[row][col]!='') return;
     board[row][col] = currentPlayer.mark;
     layoutItems();
-    result({row, col})
+    result({row, col});
   }
   function result(pos){
     let res = check(pos);
@@ -101,10 +101,6 @@ let DisplayController = function(){
     if (checkRow(pos) || checkCol(pos) || checkDiag()){
       return true;
     }
-    // if(++gameboard.turn > 9){
-    //   finish('draw');
-    //   return true;
-    // }
     let c=0;
     for(let i=0; i<3; i++){
       for(let j=0; j<3; j++){
@@ -221,7 +217,6 @@ let DisplayController = function(){
     }
     board[row][col] = currentPlayer.mark;
     layoutItems();
-    check({row, col});
-    togglePlayer();
+    result({row, col});
   }
 }()
