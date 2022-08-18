@@ -76,16 +76,16 @@ let DisplayController = function(){
     if (board[row][col]!='') return;
     board[row][col] = currentPlayer.mark;
     layoutItems();
-    result({row, col});
+    result();
   }
-  function result(pos){
-    let res = check(pos);
-    if(res){
-      finish(true)
-    }else if(res==null){
+  function result(){
+    let res = check();
+    if(res=='tie'){
       finish(false)
-    }else{
+    }else if(res==null){
       togglePlayer();
+    }else{
+      finish(true);
     }
   }
   function layoutItems(){
@@ -104,7 +104,7 @@ let DisplayController = function(){
   }
   function check(){
     if (checkRow() || checkCol() || checkDiag()){
-      return true;
+      return currentPlayer;
     }
     let c=0;
     for(let i=0; i<3; i++){
@@ -114,8 +114,8 @@ let DisplayController = function(){
         }
       }
     }
-    if(c==0) return null;
-    return false;
+    if(c==0) return 'tie';
+    return null;
   }
   function checkRow(){
     for(let i=0; i<3; i++){
@@ -257,7 +257,10 @@ let DisplayController = function(){
     result({row, col});
   }
   function minMax(board, depth, isMaximixing){
-    return 1;
+    let res = check();
+    if(result != false){
 
+    }
+    return 1;
   }
 }()
