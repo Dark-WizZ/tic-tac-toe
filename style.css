@@ -28,14 +28,17 @@ body, html{
 .game-layout{
   height: 100%;
   display:none;
+  gap: 20px;
+  flex-direction: column;
   place-content: center;
   place-items: center;
-  gap: 20px;
 }
 .player-info{
   font-size: 2em;
 }
 .grids{
+  flex: 1;
+  align-self: stretch;
   display: grid;
   grid-template-columns: repeat(3, 150px);
   grid-template-rows: repeat(3, 150px);
@@ -119,4 +122,11 @@ button:active{
 }
 .part.hover{
   color: rgb(63, 63, 63);
+}
+
+@media only screen and (max-width: 600px){
+  .grids{
+    grid-template-columns: repeat(3, 80px);
+    grid-template-rows: repeat(3, 80px);
+  }
 }

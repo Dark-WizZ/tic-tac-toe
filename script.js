@@ -171,7 +171,7 @@ let DisplayController = function(){
     gameLayout.style = 'filter: blur(5px);';
     gameLayout.style.display = 'grid';
     greetLayout.style.display = 'grid'
-    greeting.textContent = (res=='tie')?'draw': res + ' won!';
+    greeting.textContent = (res=='tie')?'Draw!': currentPlayer.name + ' won!';
   }
 
   function playBtnClick(){
