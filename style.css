@@ -75,13 +75,14 @@ body, html{
   padding: 20px;
   place-content: center;
   gap:10px;
+  place-items: center;
 }
 button{
   background-color: var(--fgc);
   border:0;
   padding: 6px 20px;
 }
-input{
+input, select{
   background-color: rgba(255, 255, 255, 0.153);
   padding: 3px 5px;
 }
@@ -105,7 +106,7 @@ input{
 .greeting{
   text-align: center;
 }
-input:hover{
+input:hover, select:hover{
   background-color: var(--hbgc);
 }
 button:hover{
